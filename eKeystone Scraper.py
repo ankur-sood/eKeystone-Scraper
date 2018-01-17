@@ -99,25 +99,44 @@ with open(csvfile, 'w', newline='') as csv_file:
 			print("             Name: " + name)
 
 			#SHORT DESC
-			shortdesc_box = soup.find('div', attrs={'id': 'webcontent_0_row2_0_productDetailTabs_upAdditionalInfoTab'})
-			if shortdesc_box is None: 
-				shortdesc = "No description"
-			else:
-				shortdesc1 = shortdesc_box.text.strip()
-				shortdesc2 = shortdesc1.replace("                                        ", "")
-				shortdesc3 = shortdesc2.replace("â€™", "'")
-				#print(shortdesc)
-				shortdesc4= shortdesc3.split("Recommended Items")
-				shortdesc5 = shortdesc4[0]
-				shortdesc = shortdesc5.replace(":\r",": ")
-				shortdesc = shortdesc.replace(":\n",": ")
-				shortdesc = shortdesc.replace(": \r",": ")
-				shortdesc = shortdesc.replace(": \n",": ")
-				shortdesc = shortdesc.replace("®", "")
-				shortdesc = shortdesc.replace("‘", "'")
-				shortdesc = shortdesc.replace("™","")
-				shortdesc = shortdesc.replace("’", "'")
-			print("             Short Description: ...")
+						shortdesc_box = soup.find('div', attrs={'id': 'webcontent_0_row2_0_productDetailTabs_upAdditionalInfoTab'})
+						shortdesc_remove_box = soup.find('div', attrs={'id': 'webcontent_0_row2_0_productDetailTabs_requiredProducts'})
+						if shortdesc_box is None: 
+							shortdesc = "No description"
+						
+						elif shortdesc_remove_box is not None:
+
+							shortdesc_remove = shortdesc_remove_box.text.strip()
+							shortdesc_original = shortdesc_box.text.strip()
+
+							shortdesc1 = shortdesc_original.replace(shortdesc_remove, '')
+							shortdesc2 = shortdesc1.replace("                                        ", "")
+							shortdesc3 = shortdesc2.replace("â€™", "'")
+							#print(shortdesc)
+							shortdesc4= shortdesc3.split("Recommended Items")
+							shortdesc5 = shortdesc4[0]
+
+							shortdesc6 = shortdesc5.split("Replacement Items")
+							shortdesc7 = shortdesc6[0]
+							
+							shortdesc = shortdesc7.replace(":\r",": ")
+							shortdesc = shortdesc.replace(":\n",": ")
+							shortdesc = shortdesc.replace(": \r",": ")
+							shortdesc = shortdesc.replace(": \n",": ")
+							shortdesc = shortdesc.replace("®", "")
+							shortdesc = shortdesc.replace("‘", "'")
+							shortdesc = shortdesc.replace("™","")
+							shortdesc = shortdesc.replace("’", "'")
+						print("             Short Description: ...")
+						
+						#LONG DESC
+						longdesc_box = soup.find('span', attrs={'id': 'webcontent_0_row2_0_productDetailHeader_lblDescription'})
+						if longdesc_box is None:
+							longdesc = "No longdesc"
+						else:
+							longdesc = longdesc_box.text.strip()
+						print("             Long Description: ...")
+						#print(longdesc)
 			
 			#LONG DESC
 			longdesc_box = soup.find('span', attrs={'id': 'webcontent_0_row2_0_productDetailHeader_lblDescription'})
